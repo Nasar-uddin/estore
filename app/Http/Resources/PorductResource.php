@@ -23,7 +23,7 @@ class PorductResource extends JsonResource
             "rating"=>$this->reviews->count()>0?round($this->reviews->avg('star'),2):"Not rated yet",
             "Owner"=>$this->user->name,
             "links"=>[
-                    route("reviews.index",$this->id)
+                    "reviews"=>route("reviews.index",$this->id)
                 ]
         ];
     }

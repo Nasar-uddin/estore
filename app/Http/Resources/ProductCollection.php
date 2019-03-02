@@ -23,7 +23,7 @@ class ProductCollection extends Resource
             "owner"=>$this->user->name,
             "rating"=>$this->reviews->count()>0?round($this->reviews->avg('star'),2):0,
             "links"=>[
-                "reviews"=>route("reviews.index",$this->id)
+                "show"=>route("product.show",$this->id)
             ]
         ];
     }
