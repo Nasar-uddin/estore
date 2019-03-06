@@ -5,6 +5,7 @@ namespace App\Exceptions;
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Illuminate\Database\QueryException;
 use Symfony\Component\HttpFoundation\Response;
 
 class Handler extends ExceptionHandler
@@ -53,6 +54,11 @@ class Handler extends ExceptionHandler
                 return response([
                     "msg"=>"Page not found"
                 ],Response::HTTP_NOT_FOUND);
+            }
+            if($exception instanceof QueryException){
+                return response([
+                    "msg"=>"Data is not correct"
+                ],Response::HTTP_FORBIDDEN);
             }
         }
         return parent::render($request, $exception);

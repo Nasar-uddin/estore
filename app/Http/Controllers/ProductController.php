@@ -29,19 +29,23 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $product = new Product();
+        $user = auth('api')->user();
+        $userId = $user->id;
         $product->name = $request->name;
         $product->details = $request->description;
         $product->price = $request->price;
         $product->stock = $request->stock;
         $product->discount = $request->discount;
-        $product->user_id = 1;
+        $product->user_id = $userId;
         if($product->save())
             return response([
-                "data"=>$product
+                "msg"=>"New product added",
+                "ok"=>true
             ],Response::HTTP_CREATED);
         else
             return response([
-                "msg"=>"Cannot Save you product"
+                "msg"=>"Cannot Save you product",
+                "ok"=>false
             ],Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 
