@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Model\Product;
+use App\Model\Review;
 use App\Http\Resources\ProductCollection;
 use App\Http\Resources\PorductResource;
 use Symfony\Component\HttpFoundation\Response;
@@ -110,16 +111,20 @@ class ProductController extends Controller
         $user = auth('api')->user();
         $userId = $user->id;
         if($userId===$product->user_id){
-            if($product->delete())
+            if($product->delete()){
+                // delete reviews for the product
+                Review::where("product_id",$product->id)->delete();
                 return response([
                     "msg"=>"Product has been deleted",
                     "status"=>1
                 ],Response::HTTP_OK);
-            else
+            }
+            else{
                 return response([
                     "msg"=>"Product has been deleted",
                     "status"=>0
                 ],Response::HTTP_NOT_FOUND);
+            }
         }else{
             return response([
                 "msg"=>"Unauthorized action",

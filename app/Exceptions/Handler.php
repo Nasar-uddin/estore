@@ -55,10 +55,14 @@ class Handler extends ExceptionHandler
                     "msg"=>"Page not found"
                 ],Response::HTTP_NOT_FOUND);
             }
-            if($exception instanceof QueryException){
+            else if($exception instanceof QueryException){
                 return response([
                     "msg"=>"Data is not correct"
                 ],Response::HTTP_FORBIDDEN);
+            }else{
+                return response([
+                    "msg"=>"Somthing went wrong"
+                ],Response::HTTP_NOT_FOUND);
             }
         }
         return parent::render($request, $exception);
